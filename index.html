@@ -1,82 +1,63 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>🎄 Merry Christmas</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎄 Christmas</title>
 
 <style>
-  * { box-sizing: border-box; }
-
   body {
     margin: 0;
     height: 100vh;
-    background: radial-gradient(circle at top, #012, #000);
+    background: #020b1a;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: system-ui, -apple-system;
     color: white;
-  }
-
-  .container {
-    text-align: center;
+    font-family: system-ui;
+    overflow: hidden;
   }
 
   .tree-wrap {
     position: relative;
     width: 260px;
     height: 420px;
-    margin: auto;
   }
 
   /* 🌟 星星 */
   .star {
     position: absolute;
-    top: -10px;
+    top: -20px;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 48px;
+    font-size: 52px;
     cursor: pointer;
     z-index: 10;
   }
 
-  .star.flash {
-    animation: starFlash 0.8s ease;
-  }
-
-  @keyframes starFlash {
-    0% { transform: translateX(-50%) scale(1) rotate(0); }
-    40% { transform: translateX(-50%) scale(1.6) rotate(20deg); }
-    100% { transform: translateX(-50%) scale(1) rotate(0); }
-  }
-
-  /* 🎄 树层 */
+  /* 🎄 树 */
   .layer {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    border-left: 130px solid transparent;
-    border-right: 130px solid transparent;
-    border-bottom: 150px solid #0b7a3c;
-    filter: drop-shadow(0 8px 0 rgba(0,0,0,0.2));
+    border-left: 140px solid transparent;
+    border-right: 140px solid transparent;
+    border-bottom: 160px solid #0a7a3c;
+  }
+  .l1 { top: 40px; }
+  .l2 {
+    top: 140px;
+    border-left-width: 160px;
+    border-right-width: 160px;
+    border-bottom-width: 190px;
+  }
+  .l3 {
+    top: 270px;
+    border-left-width: 180px;
+    border-right-width: 180px;
+    border-bottom-width: 210px;
   }
 
-  .layer.l1 { top: 40px; }
-  .layer.l2 {
-    top: 130px;
-    border-left-width: 150px;
-    border-right-width: 150px;
-    border-bottom-width: 180px;
-  }
-  .layer.l3 {
-    top: 250px;
-    border-left-width: 170px;
-    border-right-width: 170px;
-    border-bottom-width: 200px;
-  }
-
-  /* 🌳 树干 */
   .trunk {
     position: absolute;
     bottom: 0;
@@ -85,71 +66,70 @@
     width: 60px;
     height: 80px;
     background: #6b3e1e;
-    border-radius: 6px;
   }
 
   /* 🎁 彩灯 */
   .ball {
     position: absolute;
-    width: 14px;
-    height: 14px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
     cursor: pointer;
-    box-shadow: 0 0 8px currentColor;
+    box-shadow: 0 0 10px currentColor;
   }
 
-  .ball.bounce {
-    animation: bounceGlow 0.6s ease;
+  /* 💥 爆炸动画（非常明显） */
+  @keyframes explode {
+    0%   { transform: scale(1); opacity: 1; }
+    40%  { transform: scale(3); opacity: 1; }
+    100% { transform: scale(0); opacity: 0; }
   }
 
-  @keyframes bounceGlow {
-    0% { transform: scale(1); box-shadow: 0 0 6px currentColor; }
-    40% { transform: scale(2); box-shadow: 0 0 18px currentColor; }
-    100% { transform: scale(1); box-shadow: 0 0 8px currentColor; }
+  .explode {
+    animation: explode 0.8s ease-out forwards;
+  }
+
+  /* 🌪 树震动 */
+  @keyframes shake {
+    0% { transform: translateX(-50%) rotate(0); }
+    25% { transform: translateX(-50%) rotate(2deg); }
+    50% { transform: translateX(-50%) rotate(-2deg); }
+    75% { transform: translateX(-50%) rotate(1deg); }
+    100% { transform: translateX(-50%) rotate(0); }
+  }
+
+  .shake {
+    animation: shake 0.6s;
   }
 
   h1 {
-    margin-top: 30px;
-    font-weight: 600;
-  }
-
-  .hint {
-    font-size: 14px;
-    opacity: 0.7;
-  }
-
-  @media (max-width: 600px) {
-    .tree-wrap { transform: scale(0.85); }
+    position: absolute;
+    bottom: 30px;
+    width: 100%;
+    text-align: center;
   }
 </style>
 </head>
 
 <body>
 
-<div class="container" id="page">
+<div class="tree-wrap" id="tree">
 
-  <div class="tree-wrap">
+  <div class="star" id="star">⭐</div>
 
-    <div class="star" id="star">⭐</div>
+  <div class="layer l1"></div>
+  <div class="layer l2"></div>
+  <div class="layer l3"></div>
 
-    <div class="layer l1"></div>
-    <div class="layer l2"></div>
-    <div class="layer l3"></div>
+  <div class="ball" style="top:140px; left:120px; color:red;"></div>
+  <div class="ball" style="top:190px; left:170px; color:gold;"></div>
+  <div class="ball" style="top:240px; left:90px; color:cyan;"></div>
+  <div class="ball" style="top:290px; left:180px; color:hotpink;"></div>
 
-    <!-- 彩灯（全部是相对 tree-wrap 的稳定定位） -->
-    <div class="ball" style="top:120px; left:120px; color:red;"></div>
-    <div class="ball" style="top:160px; left:160px; color:gold;"></div>
-    <div class="ball" style="top:210px; left:90px; color:cyan;"></div>
-    <div class="ball" style="top:260px; left:170px; color:pink;"></div>
-    <div class="ball" style="top:300px; left:120px; color:orange;"></div>
-
-    <div class="trunk"></div>
-  </div>
-
-  <h1>🎅 Merry Christmas 🎄</h1>
-  <div class="hint">点击彩灯或星星 ✨（首次点击播放音乐）</div>
-
+  <div class="trunk"></div>
 </div>
+
+<h1>🎄 点彩灯 / 星星</h1>
 
 <audio id="music" loop>
   <source src="https://cdn.pixabay.com/audio/2022/12/21/audio_9c2d3f1f38.mp3">
@@ -159,31 +139,30 @@
   const music = document.getElementById("music");
   let started = false;
 
-  // 页面首次点击 → 播放音乐
-  document.getElementById("page").addEventListener("click", () => {
+  document.body.addEventListener("click", () => {
     if (!started) {
       music.play();
       started = true;
     }
   });
 
-  // 彩灯动画（不冒泡）
+  // 彩灯：点击必爆炸
   document.querySelectorAll(".ball").forEach(ball => {
     ball.addEventListener("click", e => {
       e.stopPropagation();
-      ball.classList.remove("bounce");
-      void ball.offsetWidth;
-      ball.classList.add("bounce");
+      ball.classList.add("explode");
     });
   });
 
-  // 星星动画
+  // 星星：点击 → 整棵树震动
   const star = document.getElementById("star");
+  const tree = document.getElementById("tree");
+
   star.addEventListener("click", e => {
     e.stopPropagation();
-    star.classList.remove("flash");
-    void star.offsetWidth;
-    star.classList.add("flash");
+    tree.classList.remove("shake");
+    void tree.offsetWidth;
+    tree.classList.add("shake");
   });
 </script>
 
