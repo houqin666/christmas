@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<title>🎄 Merry Christmas</title>
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(#00111f, #003);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Segoe UI", sans-serif;
+    color: white;
+  }
+
+  .tree {
+    position: relative;
+    width: 0;
+    height: 0;
+  }
+
+  .layer {
+    position: absolute;
+    left: -120px;
+    border-left: 120px solid transparent;
+    border-right: 120px solid transparent;
+    border-bottom: 160px solid #0a7a2f;
+    animation: glow 2s infinite alternate;
+  }
+
+  .layer:nth-child(1) { top: 0; }
+  .layer:nth-child(2) {
+    top: 90px;
+    border-left-width: 150px;
+    border-right-width: 150px;
+    border-bottom-width: 190px;
+  }
+  .layer:nth-child(3) {
+    top: 200px;
+    border-left-width: 180px;
+    border-right-width: 180px;
+    border-bottom-width: 220px;
+  }
+
+  .trunk {
+    position: absolute;
+    top: 420px;
+    left: -30px;
+    width: 60px;
+    height: 90px;
+    background: #6b3e1e;
+    border-radius: 6px;
+  }
+
+  .star {
+    position: absolute;
+    top: -70px;
+    left: -25px;
+    font-size: 50px;
+    animation: twinkle 1.5s infinite;
+  }
+
+  .ball {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    animation: blink 1.8s infinite alternate;
+  }
+
+  @keyframes glow {
+    from { filter: brightness(1); }
+    to { filter: brightness(1.15); }
+  }
+
+  @keyframes twinkle {
+    0%,100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.6; }
+  }
+
+  @keyframes blink {
+    from { opacity: 0.4; }
+    to { opacity: 1; }
+  }
+
+  h1 {
+    position: absolute;
+    bottom: 40px;
+    text-align: center;
+    width: 100%;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="tree">
+  <div class="star">⭐</div>
+
+  <div class="layer"></div>
+  <div class="layer"></div>
+  <div class="layer"></div>
+
+  <div class="trunk"></div>
+
+  <!-- 彩灯 -->
+  <div class="ball" style="top:120px; left:-40px; background:red;"></div>
+  <div class="ball" style="top:160px; left:20px; background:yellow;"></div>
+  <div class="ball" style="top:240px; left:-60px; background:cyan;"></div>
+  <div class="ball" style="top:300px; left:50px; background:pink;"></div>
+  <div class="ball" style="top:340px; left:-10px; background:orange;"></div>
+</div>
+
+<h1>🎅 Merry Christmas 🎄</h1>
+
+</body>
+</html>
