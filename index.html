@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🎄 Christmas</title>
+<title>🎄 Merry Christmas</title>
 
 <style>
   body {
     margin: 0;
     height: 100vh;
-    background: #020b1a;
+    background: radial-gradient(circle at top, #021a33, #000);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -20,52 +20,61 @@
 
   .tree-wrap {
     position: relative;
-    width: 260px;
-    height: 420px;
+    width: 280px;
+    height: 460px;
   }
 
-  /* 🌟 星星 */
+  /* ⭐ 星星 */
   .star {
     position: absolute;
-    top: -20px;
+    top: -22px;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 52px;
+    font-size: 54px;
     cursor: pointer;
     z-index: 10;
   }
 
-  /* 🎄 树 */
+  /* 🎄 树层 */
   .layer {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    border-left: 140px solid transparent;
-    border-right: 140px solid transparent;
-    border-bottom: 160px solid #0a7a3c;
-  }
-  .l1 { top: 40px; }
-  .l2 {
-    top: 140px;
-    border-left-width: 160px;
-    border-right-width: 160px;
-    border-bottom-width: 190px;
-  }
-  .l3 {
-    top: 270px;
-    border-left-width: 180px;
-    border-right-width: 180px;
-    border-bottom-width: 210px;
+    filter: drop-shadow(0 10px 0 rgba(0,0,0,0.25));
   }
 
+  .l1 {
+    top: 50px;
+    border-left: 140px solid transparent;
+    border-right: 140px solid transparent;
+    border-bottom: 160px solid #0b7a3c;
+  }
+
+  .l2 {
+    top: 160px;
+    border-left: 165px solid transparent;
+    border-right: 165px solid transparent;
+    border-bottom: 190px solid #0a6e36;
+  }
+
+  .l3 {
+    top: 300px;
+    border-left: 185px solid transparent;
+    border-right: 185px solid transparent;
+    border-bottom: 210px solid #095f2f;
+  }
+
+  /* 🌳 树干（关键修正点） */
   .trunk {
     position: absolute;
-    bottom: 0;
+    top: 430px;   /* ✅ 对齐树视觉底部 */
     left: 50%;
     transform: translateX(-50%);
-    width: 60px;
-    height: 80px;
-    background: #6b3e1e;
+    width: 64px;
+    height: 85px;
+    background: linear-gradient(#7a4a2b, #5a331a);
+    border-radius: 8px;
+    box-shadow: inset 0 4px 0 rgba(255,255,255,0.15);
   }
 
   /* 🎁 彩灯 */
@@ -75,31 +84,28 @@
     height: 16px;
     border-radius: 50%;
     cursor: pointer;
-    box-shadow: 0 0 10px currentColor;
+    background: radial-gradient(circle at 30% 30%, #fff, currentColor);
+    box-shadow:
+      0 0 8px currentColor,
+      0 0 16px currentColor;
   }
 
-  /* 💥 爆炸动画（非常明显） */
-  @keyframes explode {
-    0%   { transform: scale(1); opacity: 1; }
-    40%  { transform: scale(3); opacity: 1; }
-    100% { transform: scale(0); opacity: 0; }
+  /* 颜色升级 */
+  .red { color: #ff4d4d; }
+  .gold { color: #ffd966; }
+  .blue { color: #4dd2ff; }
+  .pink { color: #ff8bd6; }
+  .green { color: #6dff9c; }
+
+  /* 💥 点击动画 */
+  @keyframes sparkle {
+    0% { transform: scale(1); }
+    40% { transform: scale(2.5); box-shadow: 0 0 30px currentColor; }
+    100% { transform: scale(1); }
   }
 
-  .explode {
-    animation: explode 0.8s ease-out forwards;
-  }
-
-  /* 🌪 树震动 */
-  @keyframes shake {
-    0% { transform: translateX(-50%) rotate(0); }
-    25% { transform: translateX(-50%) rotate(2deg); }
-    50% { transform: translateX(-50%) rotate(-2deg); }
-    75% { transform: translateX(-50%) rotate(1deg); }
-    100% { transform: translateX(-50%) rotate(0); }
-  }
-
-  .shake {
-    animation: shake 0.6s;
+  .spark {
+    animation: sparkle 0.7s ease;
   }
 
   h1 {
@@ -108,12 +114,16 @@
     width: 100%;
     text-align: center;
   }
+
+  @media (max-width: 600px) {
+    .tree-wrap { transform: scale(0.85); }
+  }
 </style>
 </head>
 
 <body>
 
-<div class="tree-wrap" id="tree">
+<div class="tree-wrap">
 
   <div class="star" id="star">⭐</div>
 
@@ -121,48 +131,25 @@
   <div class="layer l2"></div>
   <div class="layer l3"></div>
 
-  <div class="ball" style="top:140px; left:120px; color:red;"></div>
-  <div class="ball" style="top:190px; left:170px; color:gold;"></div>
-  <div class="ball" style="top:240px; left:90px; color:cyan;"></div>
-  <div class="ball" style="top:290px; left:180px; color:hotpink;"></div>
+  <!-- 彩灯：颜色 + 层次 -->
+  <div class="ball red"   style="top:140px; left:130px;"></div>
+  <div class="ball gold"  style="top:190px; left:175px;"></div>
+  <div class="ball blue"  style="top:240px; left:95px;"></div>
+  <div class="ball pink"  style="top:290px; left:185px;"></div>
+  <div class="ball green" style="top:330px; left:130px;"></div>
 
   <div class="trunk"></div>
 </div>
 
-<h1>🎄 点彩灯 / 星星</h1>
-
-<audio id="music" loop>
-  <source src="https://cdn.pixabay.com/audio/2022/12/21/audio_9c2d3f1f38.mp3">
-</audio>
+<h1>🎄 Merry Christmas 🎄</h1>
 
 <script>
-  const music = document.getElementById("music");
-  let started = false;
-
-  document.body.addEventListener("click", () => {
-    if (!started) {
-      music.play();
-      started = true;
-    }
-  });
-
-  // 彩灯：点击必爆炸
   document.querySelectorAll(".ball").forEach(ball => {
-    ball.addEventListener("click", e => {
-      e.stopPropagation();
-      ball.classList.add("explode");
+    ball.addEventListener("click", () => {
+      ball.classList.remove("spark");
+      void ball.offsetWidth;
+      ball.classList.add("spark");
     });
-  });
-
-  // 星星：点击 → 整棵树震动
-  const star = document.getElementById("star");
-  const tree = document.getElementById("tree");
-
-  star.addEventListener("click", e => {
-    e.stopPropagation();
-    tree.classList.remove("shake");
-    void tree.offsetWidth;
-    tree.classList.add("shake");
   });
 </script>
 
