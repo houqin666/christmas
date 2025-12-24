@@ -4,27 +4,52 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🎄 Merry Christmas</title>
-
 <style>
+  * { margin:0; padding:0; box-sizing:border-box; }
   body {
-    margin: 0;
     height: 100vh;
     background: radial-gradient(circle at top, #021a33, #000);
     display: flex;
     justify-content: center;
     align-items: center;
-    color: white;
     font-family: system-ui;
     overflow: hidden;
+    color: white;
   }
 
   .tree-wrap {
     position: relative;
     width: 280px;
     height: 460px;
+    z-index: 10;
   }
 
-  /* ⭐ 星星 */
+  /* 树层 */
+  .layer {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    filter: drop-shadow(0 10px 0 rgba(0,0,0,0.25));
+  }
+  .l1 { top:50px; border-left:140px solid transparent; border-right:140px solid transparent; border-bottom:160px solid #0b7a3c; }
+  .l2 { top:160px; border-left:165px solid transparent; border-right:165px solid transparent; border-bottom:190px solid #0a6e36; }
+  .l3 { top:300px; border-left:185px solid transparent; border-right:185px solid transparent; border-bottom:210px solid #095f2f; }
+
+  /* 树干 */
+  .trunk {
+    position: absolute;
+    top:510px; /* 对齐树视觉底部 */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 64px;
+    height: 90px;
+    background: linear-gradient(#7a4a2b,#5a331a);
+    border-radius: 8px;
+    box-shadow: inset 0 4px 0 rgba(255,255,255,0.15);
+    z-index:10;
+  }
+
+  /* 星星 */
   .star {
     position: absolute;
     top: -22px;
@@ -32,110 +57,51 @@
     transform: translateX(-50%);
     font-size: 54px;
     cursor: pointer;
-    z-index: 10;
+    z-index:11;
   }
 
-  /* 🎄 树层 */
-  .layer {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    filter: drop-shadow(0 10px 0 rgba(0,0,0,0.25));
-  }
-
-  .l1 {
-    top: 50px;
-    border-left: 140px solid transparent;
-    border-right: 140px solid transparent;
-    border-bottom: 160px solid #0b7a3c;
-  }
-
-  .l2 {
-    top: 160px;
-    border-left: 165px solid transparent;
-    border-right: 165px solid transparent;
-    border-bottom: 190px solid #0a6e36;
-  }
-
-  .l3 {
-    top: 300px;
-    border-left: 185px solid transparent;
-    border-right: 185px solid transparent;
-    border-bottom: 210px solid #095f2f;
-  }
-
-  /* 🌳 树干（关键修正点） */
-  .trunk {
-    position: absolute;
-    top: 430px;   /* ✅ 对齐树视觉底部 */
-    left: 50%;
-    transform: translateX(-50%);
-    width: 64px;
-    height: 85px;
-    background: linear-gradient(#7a4a2b, #5a331a);
-    border-radius: 8px;
-    box-shadow: inset 0 4px 0 rgba(255,255,255,0.15);
-  }
-
-  /* 🎁 彩灯 */
+  /* 彩灯 */
   .ball {
     position: absolute;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    cursor: pointer;
+    width:16px; height:16px; border-radius:50%;
+    cursor:pointer;
     background: radial-gradient(circle at 30% 30%, #fff, currentColor);
-    box-shadow:
-      0 0 8px currentColor,
-      0 0 16px currentColor;
+    box-shadow:0 0 8px currentColor,0 0 16px currentColor;
   }
+  .red{color:#ff4d4d;}
+  .gold{color:#ffd966;}
+  .blue{color:#4dd2ff;}
+  .pink{color:#ff8bd6;}
+  .green{color:#6dff9c;}
 
-  /* 颜色升级 */
-  .red { color: #ff4d4d; }
-  .gold { color: #ffd966; }
-  .blue { color: #4dd2ff; }
-  .pink { color: #ff8bd6; }
-  .green { color: #6dff9c; }
+  /* 彩灯点击动画 */
+  @keyframes sparkle { 0%{transform:scale(1);} 40%{transform:scale(2.5);box-shadow:0 0 30px currentColor;} 100%{transform:scale(1);} }
+  .spark{animation:sparkle 0.7s ease;}
 
-  /* 💥 点击动画 */
-  @keyframes sparkle {
-    0% { transform: scale(1); }
-    40% { transform: scale(2.5); box-shadow: 0 0 30px currentColor; }
-    100% { transform: scale(1); }
-  }
+  h1{position:absolute;bottom:30px;width:100%;text-align:center;}
 
-  .spark {
-    animation: sparkle 0.7s ease;
-  }
+  /* 雪花样式 */
+  .snow { position: absolute; top:-10px; width:8px; height:8px; background: #fff; border-radius:50%; opacity:0.8; z-index:1; pointer-events:none; }
 
-  h1 {
-    position: absolute;
-    bottom: 30px;
-    width: 100%;
-    text-align: center;
-  }
-
-  @media (max-width: 600px) {
-    .tree-wrap { transform: scale(0.85); }
-  }
+  @media (max-width:600px){.tree-wrap{transform:scale(0.85);}}
 </style>
 </head>
-
 <body>
 
-<div class="tree-wrap">
+<!-- 雪花容器 -->
+<div id="snow-container"></div>
 
+<!-- 树 -->
+<div class="tree-wrap" id="tree">
   <div class="star" id="star">⭐</div>
-
   <div class="layer l1"></div>
   <div class="layer l2"></div>
   <div class="layer l3"></div>
 
-  <!-- 彩灯：颜色 + 层次 -->
-  <div class="ball red"   style="top:140px; left:130px;"></div>
-  <div class="ball gold"  style="top:190px; left:175px;"></div>
-  <div class="ball blue"  style="top:240px; left:95px;"></div>
-  <div class="ball pink"  style="top:290px; left:185px;"></div>
+  <div class="ball red" style="top:140px; left:130px;"></div>
+  <div class="ball gold" style="top:190px; left:175px;"></div>
+  <div class="ball blue" style="top:240px; left:95px;"></div>
+  <div class="ball pink" style="top:290px; left:185px;"></div>
   <div class="ball green" style="top:330px; left:130px;"></div>
 
   <div class="trunk"></div>
@@ -143,14 +109,75 @@
 
 <h1>🎄 Merry Christmas 🎄</h1>
 
+<audio id="music" loop>
+  <source src="https://cdn.pixabay.com/audio/2022/12/21/audio_9c2d3f1f38.mp3">
+</audio>
+
 <script>
-  document.querySelectorAll(".ball").forEach(ball => {
-    ball.addEventListener("click", () => {
-      ball.classList.remove("spark");
-      void ball.offsetWidth;
-      ball.classList.add("spark");
-    });
-  });
+const music=document.getElementById("music");
+let started=false;
+document.body.addEventListener("click",()=>{
+  if(!started){music.play();started=true;}
+});
+
+// 彩灯点击动画
+document.querySelectorAll(".ball").forEach(ball=>{
+  ball.addEventListener("click",()=>{ball.classList.remove("spark"); void ball.offsetWidth; ball.classList.add("spark");});
+});
+
+// 星星点击粒子效果
+const star=document.getElementById("star");
+const tree=document.getElementById("tree");
+star.addEventListener("click",(e)=>{
+  e.stopPropagation();
+  for(let i=0;i<20;i++){
+    const p=document.createElement("div");
+    p.className="snow"; // 利用雪花做粒子
+    p.style.background="gold";
+    p.style.width=p.style.height=Math.random()*6+4+"px";
+    p.style.left="50%";
+    p.style.top="0";
+    p.style.position="absolute";
+    p.style.zIndex="15";
+    tree.appendChild(p);
+    let angle=Math.random()*2*Math.PI;
+    let speed= Math.random()*5+2;
+    let vx=Math.cos(angle)*speed;
+    let vy=Math.sin(angle)*speed;
+    let life=60+Math.random()*30;
+    let frame=0;
+    const anim=setInterval(()=>{
+      p.style.left=parseFloat(p.style.left)+vx+"px";
+      p.style.top=parseFloat(p.style.top)+vy+"px";
+      frame++;
+      if(frame>life){p.remove();clearInterval(anim);}
+    },16);
+  }
+});
+
+// 下雪效果
+const snowContainer=document.getElementById("snow-container");
+function createSnow(){
+  const s=document.createElement("div");
+  s.className="snow";
+  s.style.left=Math.random()*window.innerWidth+"px";
+  s.style.top=-10+"px";
+  s.style.opacity=Math.random()*0.5+0.5;
+  s.style.width=s.style.height=(Math.random()*4+2)+"px";
+  snowContainer.appendChild(s);
+  let speedY=Math.random()*1+0.5;
+  let speedX=(Math.random()-0.5)*0.5;
+  function fall(){
+    const top=parseFloat(s.style.top);
+    const left=parseFloat(s.style.left);
+    if(top>window.innerHeight){s.remove();return;}
+    s.style.top=top+speedY+"px";
+    s.style.left=left+speedX+"px";
+    requestAnimationFrame(fall);
+  }
+  fall();
+}
+setInterval(createSnow,100);
 </script>
 
 </body>
